@@ -8,15 +8,10 @@ Add a barcode scanner, a payment terminal, and a scale to verify weights, and su
 
 Join us for a fun exploration into how Android can be pushed beyond its usual limits, in kiosk mode!
 
-## Bio
+## Working with a Raspi
 
-Etienne Caron is the technical founder of Kanastruk, an innovation lab specializing in software development, IoT, machine learning, and embedded systems. For the past few years, he has led the company, partnering with notable clients such as Bell Canada and Instacart.
-
-Etienne began his career as a back-end developer in the late nineties, pivoting to mobile development in the early 2010s. He has worked across all tiers of large-scale software platforms, including server, web, mobile, and embedded systems.
-
-- Staff developer for the e-commerce store management application at Shopify.
-- Senior Android developer on the Hatchful™ Logo Maker at Shopify.
-- Android team lead on the TrueKey™ password management app for Intel / McAfee.
-- Senior developer on the Nina™ Mobile speech recognition SDK at Nuance Communications.
-
-With over 25 years of experience, Etienne remains a dedicated community member, actively mentoring startups, developers, and students. He lives in Montreal, Canada, with his wife and daughter and is fluent in both French and English.
+shell:
+`adb root`
+`adb shell`
+`#`
+`alias l='ls -al --color'`

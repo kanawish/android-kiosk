@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Kiosk Demo</string>
+    <string name="appstate_unavailable">appState unavailable.</string>
+</resources>
