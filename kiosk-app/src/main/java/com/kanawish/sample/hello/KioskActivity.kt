@@ -143,8 +143,13 @@ class KioskActivity : ComponentActivity() {
                                 if (isLockTaskMode.value) {
                                     stopLockTask()
                                 }
+                                // Clear any flags that might prevent the app from being killed
+                                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                                // Finish and remove from recent tasks
                                 finishAndRemoveTask()
-                                Timber.d("Activity finished and removed from recent tasks")
+                                // Force stop the process
+                                android.os.Process.killProcess(android.os.Process.myPid())
+                                Timber.d("Activity finished and process killed")
                             } catch (e: Exception) {
                                 Timber.w(e, "Failed to finish activity")
                             }

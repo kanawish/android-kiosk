@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kanawish.sample.hello.navigation.TypeRoute.*
 import com.kanawish.sample.hello.view.MainScreen
-import com.kanawish.sample.hello.view.CameraScreen
+import com.kanawish.sample.hello.view.CameraView
 import org.koin.compose.koinInject
 
 // TODO: Replace MainNavGraph with MainNavGraphHost
@@ -20,7 +20,7 @@ fun MainNavGraphHost(mainNav: MainNav = koinInject()) {
         startDestination = MainRoute
     ) {
         composable<MainRoute> { MainScreen() }
-        composable<QRScanRoute> { CameraScreen() }
+        composable<QRScanRoute> { CameraView() }
     }
 
     LaunchedEffect(Unit) {
@@ -56,7 +56,7 @@ fun MainNavGraph(
         }
         
         composable<QRScanRoute> {
-            CameraScreen()
+            CameraView()
         }
     }
 
