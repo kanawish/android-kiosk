@@ -10,7 +10,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -43,9 +41,12 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.kanawish.sample.hello.view.CameraDiagnostics
-import com.kanawish.sample.hello.view.QRScannerScreen
 import timber.log.Timber
+import androidx.navigation.compose.rememberNavController
+import com.kanawish.sample.hello.navigation.MainNav
+import com.kanawish.sample.hello.navigation.MainNavGraph
+import com.kanawish.sample.hello.navigation.TypeRoute.QRScanRoute
+import org.koin.compose.koinInject
 
 /**
  * PlantUML diagram for the Kiosk App structure:
@@ -119,62 +120,36 @@ class KioskActivity : ComponentActivity() {
                         )
                     }
 
-                    Row(modifier = Modifier.fillMaxSize()) {
-                        // Left side - Kiosk Controls
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                        ) {
-                            KioskContent(
-                                isLockTaskMode = isLockTaskMode.value,
-                                onToggleLockTask = {
-                                    try {
-                                        if (isLockTaskMode.value) {
-                                            stopLockTask()
-                                            Timber.d("Lock task stopped manually")
-                                        } else {
-                                            startLockTask()
-                                            Timber.d("Lock task started manually")
-                                        }
-                                        // Update status after toggling lock task
-                                        isLockTaskMode.value = activityManager.lockTaskModeState != ActivityManager.LOCK_TASK_MODE_NONE
-                                    } catch (e: Exception) {
-                                        Timber.w(e, "Failed to toggle lock task mode")
-                                    }
-                                },
-                                onEndApp = {
-                                    try {
-                                        if (isLockTaskMode.value) {
-                                            stopLockTask()
-                                        }
-                                        finishAndRemoveTask()
-                                        Timber.d("Activity finished and removed from recent tasks")
-                                    } catch (e: Exception) {
-                                        Timber.w(e, "Failed to finish activity")
-                                    }
+                    // Navigation graph
+                    MainNavGraph(
+                        isLockTaskMode = isLockTaskMode.value,
+                        onToggleLockTask = {
+                            try {
+                                if (isLockTaskMode.value) {
+                                    stopLockTask()
+                                    Timber.d("Lock task stopped manually")
+                                } else {
+                                    startLockTask()
+                                    Timber.d("Lock task started manually")
                                 }
-                            )
+                                // Update status after toggling lock task
+                                isLockTaskMode.value = activityManager.lockTaskModeState != ActivityManager.LOCK_TASK_MODE_NONE
+                            } catch (e: Exception) {
+                                Timber.w(e, "Failed to toggle lock task mode")
+                            }
+                        },
+                        onEndApp = {
+                            try {
+                                if (isLockTaskMode.value) {
+                                    stopLockTask()
+                                }
+                                finishAndRemoveTask()
+                                Timber.d("Activity finished and removed from recent tasks")
+                            } catch (e: Exception) {
+                                Timber.w(e, "Failed to finish activity")
+                            }
                         }
-
-                        // Vertical divider
-                        Surface(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .width(1.dp),
-                            color = Color.Gray.copy(alpha = 0.3f)
-                        ) { }
-                        
-                        // Right side - Camera Diagnostics
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                        ) {
-                            QRScannerScreen()
-                            // CameraDiagnostics()
-                        }
-                    }
+                    )
                 }
             }
         }
@@ -273,13 +248,14 @@ fun KioskLockTaskEffect() {
  */
 @Composable
 fun KioskContent(
+    mainNav: MainNav = koinInject(),
     isLockTaskMode: Boolean,
     onToggleLockTask: () -> Unit,
     onEndApp: () -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .fillMaxHeight()
+//            .fillMaxHeight()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -290,7 +266,7 @@ fun KioskContent(
             fontSize = 32.sp,
             color = Color.Blue,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
+//            modifier = Modifier.fillMaxWidth()
         )
         
         Spacer(modifier = Modifier.height(30.dp))
@@ -311,22 +287,34 @@ fun KioskContent(
             )
         }
         
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
-        Button(
-            onClick = onToggleLockTask,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(if (isLockTaskMode) "Exit Kiosk Mode" else "Enter Kiosk Mode")
-        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Button(
+                onClick = onToggleLockTask,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(if (isLockTaskMode) "Exit Kiosk Mode" else "Enter Kiosk Mode")
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = onEndApp,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text("End App ☠️")
+            // Navigation Button
+            Button(
+                onClick = { mainNav.nav(QRScanRoute) },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Open Camera View")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onEndApp,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("End App ☠️")
+            }
         }
     }
 }

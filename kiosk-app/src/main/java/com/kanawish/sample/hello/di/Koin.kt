@@ -2,6 +2,8 @@ package com.kanawish.sample.hello.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.kanawish.sample.hello.navigation.MainNav
+import com.kanawish.sample.hello.navigation.MainNavModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -22,6 +24,8 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
 
 fun appModule() = module {
     single { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+
+    single<MainNav> { MainNavModel(get()) }
 
     single<OkHttpClient> {
         OkHttpClient.Builder()

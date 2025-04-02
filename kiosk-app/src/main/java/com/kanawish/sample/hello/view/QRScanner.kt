@@ -40,7 +40,7 @@ fun QRScanner(
                 implementationMode = PreviewView.ImplementationMode.COMPATIBLE
             }
         },
-        modifier = Modifier.fillMaxSize()
+        // modifier = Modifier.fillMaxSize()
     ) { previewView ->
         scope.launch {
             val cameraProvider = ProcessCameraProvider.getInstance(context).get()
