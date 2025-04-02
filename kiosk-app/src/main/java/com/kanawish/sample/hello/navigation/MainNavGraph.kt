@@ -9,6 +9,7 @@ import com.kanawish.sample.hello.navigation.TypeRoute.*
 import com.kanawish.sample.hello.view.MainScreen
 import com.kanawish.sample.hello.view.CameraView
 import org.koin.compose.koinInject
+import timber.log.Timber
 
 // TODO: Replace MainNavGraph with MainNavGraphHost
 @Composable
@@ -20,13 +21,13 @@ fun MainNavGraphHost(mainNav: MainNav = koinInject()) {
         startDestination = MainRoute
     ) {
         composable<MainRoute> { MainScreen() }
-        composable<QRScanRoute> { CameraView() }
+        composable<QRScanRoute> { CameraView(onQrCodeDetected = {Timber.d("QR Code detected: $it")}) }
     }
 
     LaunchedEffect(Unit) {
-        timber.log.Timber.d("MainActivity -> LaunchedEffect(Unit)")
+        Timber.d("MainActivity -> LaunchedEffect(Unit)")
         mainNav.mainNavEvents.collect { event ->
-            timber.log.Timber.d("mainNavEvent $event")
+            Timber.d("mainNavEvent $event")
             event.block.invoke(navHostController)
         }
     }
@@ -56,14 +57,14 @@ fun MainNavGraph(
         }
         
         composable<QRScanRoute> {
-            CameraView()
+            CameraView(onQrCodeDetected = {Timber.d("QR Code detected: $it")})
         }
     }
 
     LaunchedEffect(Unit) {
-        timber.log.Timber.d("MainActivity -> LaunchedEffect(Unit)")
+        Timber.d("MainActivity -> LaunchedEffect(Unit)")
         mainNav.mainNavEvents.collect { event ->
-            timber.log.Timber.d("mainNavEvent $event")
+            Timber.d("mainNavEvent $event")
             event.block.invoke(navHostController)
         }
     }

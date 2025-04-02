@@ -92,7 +92,7 @@ class KioskActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         
         // Get device policy manager
-        devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        devicePolicyManager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
         
         // Set up Compose UI
         setContent {
@@ -102,13 +102,13 @@ class KioskActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     // Apply immersive mode effect to hide system UI
-                    ImmersiveModeEffect()
+                    ImmersiveModeEffect() // TODO: Got disabled somehow?
 
                     // Kiosk lock task effect - handles starting/stopping lock task mode
                     KioskLockTaskEffect()
 
                     // Main content with callbacks
-                    val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                    val activityManager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
                     val isLockTaskMode = remember {
                         mutableStateOf(
                             try {
