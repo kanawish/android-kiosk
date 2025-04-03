@@ -5,13 +5,14 @@ package com.kanawish.sample.hello.view.shop
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,8 +40,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -49,11 +48,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
@@ -181,7 +178,7 @@ private fun StoreActionSection() {
 fun SetupBanner() {
     Surface(
         modifier = Modifier.Companion.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.secondaryContainer,
+        color = MaterialTheme.colorScheme.secondary,
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
@@ -191,7 +188,7 @@ fun SetupBanner() {
             Icon(
                 Icons.Filled.Info,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.onSecondary
             )
             Spacer(Modifier.Companion.width(16.dp))
             Column {
@@ -202,7 +199,7 @@ fun SetupBanner() {
                 Text(
                     "Get started",
                     style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onSecondary
                 )
             }
         }
@@ -236,7 +233,7 @@ fun ActionCard(item: ActionItem) {
             .fillMaxWidth()
             .aspectRatio(2f),
         shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.primaryContainer,
         onClick = { /* TODO */ }
     ) {
         Column(
@@ -248,11 +245,12 @@ fun ActionCard(item: ActionItem) {
             Icon(
                 imageVector = item.icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.Companion.size(48.dp)
             )
             Text(
                 text = item.title,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = MaterialTheme.typography.displaySmall.copy(
                     fontSize = 28.sp,
                 )
@@ -297,88 +295,109 @@ private fun CartPanel() {
             .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
         // Top section - Customer info
-        Box(modifier = Modifier.Companion.fillMaxWidth()) {
-            Button(
-                onClick = { /* TODO */ },
-                modifier = Modifier.Companion.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
-            ) {
-                Text("Add customer")
-            }
-            // CustomerCard() // Commented out for now
-        }
+        CustomerSection()
 
         // Middle section - Line items
-        LazyColumn(
-            modifier = Modifier.Companion
-                .weight(1f)
-                .fillMaxWidth()
-        ) {
-            item {
-                LineItem(
-                    title = "Thelonious Monk & John Coltrane – Monk/Trane (Vinyl Record)",
-                    quantity = 1,
-                    price = "US$25.00",
-                    originalPrice = "US$36.00"
-                )
-            }
-        }
+        LineItems()
 
         // Bottom section - Totals and checkout
         Column(
             modifier = Modifier.Companion.fillMaxWidth()
         ) {
-            // Subtotal
-            Row(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("Subtotal")
-                Text("US$25.00")
-            }
-
-            // Taxes
-            Row(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("Taxes")
-                Text("US$3.74")
-            }
-
+            Totals()
             Spacer(modifier = Modifier.Companion.height(16.dp))
-
-            // Total
-            Row(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(
-                        "Total",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    Text("1 item")
-                }
-                Text(
-                    "US$28.74",
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-
-            Spacer(modifier = Modifier.Companion.height(16.dp))
-
             // Checkout button
             Button(
                 onClick = { /* TODO */ },
                 modifier = Modifier.Companion.fillMaxWidth(),
-                enabled = true
+                enabled = true,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
             ) {
-                Text("Checkout")
+                Text(text = "Checkout")
             }
         }
+    }
+}
+
+@Composable
+private fun Totals() {
+    // Subtotal
+    Row(
+        modifier = Modifier.Companion.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text("Subtotal")
+        Text("CA$25.00")
+    }
+
+    // Taxes
+    Row(
+        modifier = Modifier.Companion.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text("Taxes")
+        Text("CA$3.75")
+    }
+
+    Spacer(modifier = Modifier.Companion.height(16.dp))
+
+    // Total
+    Row(
+        modifier = Modifier.Companion.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            Text(
+                "Total",
+                style = MaterialTheme.typography.displaySmall
+            )
+            Text(
+                "1 item",
+                style = MaterialTheme.typography.labelLarge
+            )
+        }
+        Text(
+            "CA$28.75",
+            style = MaterialTheme.typography.displaySmall
+        )
+    }
+}
+
+@Composable
+private fun ColumnScope.LineItems() {
+    LazyColumn(
+        modifier = Modifier.Companion
+            .weight(1f)
+            .fillMaxWidth()
+    ) {
+        item {
+            LineItem(
+                title = "Thelonious Monk & John Coltrane – Monk/Trane (Vinyl Record)",
+                quantity = 1,
+                price = "CA$25.00",
+                originalPrice = "CA$36.00"
+            )
+        }
+    }
+}
+
+@Composable
+private fun CustomerSection() {
+    Box(modifier = Modifier.Companion.fillMaxWidth()) {
+        Button(
+            onClick = { /* TODO */ },
+            modifier = Modifier.Companion.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
+        ) {
+            Text("Add customer")
+        }
+        // CustomerCard() // Commented out for now
     }
 }
 
@@ -390,28 +409,67 @@ private fun LineItem(
     originalPrice: String? = null
 ) {
     Row(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(vertical = 8.dp, horizontal = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.Companion.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text("$quantity×")
-            Column {
-                Text(title)
-                if (originalPrice != null) {
+        // Thumbnail with quantity bubble
+        Box {
+            Surface(
+                modifier = Modifier.size(48.dp),
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        Icons.Filled.LocalShipping,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
+            
+            // Quantity bubble
+            Surface(
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.TopEnd)
+                    .offset(x = 8.dp, y = -8.dp),
+                shape = RoundedCornerShape(12.dp),
+                color = MaterialTheme.colorScheme.secondary
+            ) {
+                Box(contentAlignment = Alignment.Center) {
                     Text(
-                        originalPrice,
-                        style = MaterialTheme.typography.bodySmall,
-                        textDecoration = TextDecoration.Companion.LineThrough
+                        text = quantity.toString(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 }
             }
         }
-        Text(price)
+
+        // Product title (now without quantity prefix)
+        Text(
+            title,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.weight(1f)
+        )
+
+        // Price column
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
+            Text(price)
+            if (originalPrice != null) {
+                Text(
+                    originalPrice,
+                    style = MaterialTheme.typography.bodySmall,
+                    textDecoration = TextDecoration.LineThrough,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
+        }
     }
 }
-
