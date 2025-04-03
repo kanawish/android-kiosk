@@ -55,19 +55,19 @@ val AppTypography = Typography(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
         fontSize = 36.sp,
         fontWeight = FontWeight.SemiBold,
-        lineHeight = 44.sp
+        lineHeight = 36.sp
     ),
 
     // Headline styles (secondary level of prominence)
     headlineLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
-        fontSize = 20.sp,
+        fontSize = 32.sp,
         fontWeight = FontWeight.Medium,
-        lineHeight = 28.sp
+        lineHeight = 32.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
-        fontSize = 18.sp,
+        fontSize = 24.sp,
         fontWeight = FontWeight.Medium,
         lineHeight = 24.sp
     ),
@@ -75,47 +75,47 @@ val AppTypography = Typography(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
         fontSize = 16.sp,
         fontWeight = FontWeight.Medium,
-        lineHeight = 22.sp
+        lineHeight = 16.sp
     ),
 
     // Title styles (smaller than headlines, used for section headers)
     titleLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.cascadia_code)),
-        fontSize = 32.sp,
+        fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
-        lineHeight = 40.sp
+        lineHeight = 24.sp
     ),
     titleMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.cascadia_code)),
-        fontSize = 28.sp,
+        fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        lineHeight = 36.sp
+        lineHeight = 20.sp
     ),
     titleSmall = TextStyle(
         fontFamily = FontFamily(Font(R.font.cascadia_code)),
-        fontSize = 24.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
-        lineHeight = 32.sp
+        lineHeight = 16.sp
     ),
 
     // Body styles
     bodyLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Normal,
-        lineHeight = 20.sp
+        lineHeight = 16.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
-        lineHeight = 20.sp
+        lineHeight = 14.sp
     ),
     bodySmall = TextStyle(
         fontFamily = FontFamily(Font(R.font.switzer_variable)),
         fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
-        lineHeight = 16.sp
+        lineHeight = 12.sp
     ),
 
     // Label styles
