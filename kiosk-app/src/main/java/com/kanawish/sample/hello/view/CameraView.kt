@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalLensFacing
 import androidx.camera.core.FocusMeteringAction
@@ -44,6 +45,7 @@ import com.kanawish.sample.hello.navigation.MainNav
 import com.kanawish.sample.hello.navigation.TypeRoute
 import org.koin.compose.koinInject
 import timber.log.Timber
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @androidx.annotation.OptIn(ExperimentalLensFacing::class)
@@ -191,9 +193,7 @@ fun CameraView(
                                                     }
                                                 }
                                             }
-                                            .addOnCompleteListener {
-                                                imageProxy.close()
-                                            }
+                                            .addOnCompleteListener { imageProxy.close() }
                                     } else {
                                         imageProxy.close()
                                     }
@@ -209,54 +209,7 @@ fun CameraView(
                                 cameraSelector,
                                 preview,
                                 imageAnalyzer
-                            )?.also { camera ->
-                                // Just doesn't seem to work with logitech.
-                                with(camera) {
-                                    // Try to set maximum exposure - should make image very bright if it works
-                                    cameraInfo.exposureState.let { exposureState ->
-                                        if (exposureState.isExposureCompensationSupported) {
-                                            cameraControl.setExposureCompensationIndex(exposureState.exposureCompensationRange.upper)
-                                                .addListener(
-                                                    { Timber.d("Max exposure set attempt completed") },
-                                                    cameraExecutor
-                                                )
-                                        }
-                                    }
-                                    // Try to set zoom to 2x - should be noticeable if it works
-                                    cameraControl.setZoomRatio(2.0f)
-                                        .addListener(
-                                            { Timber.d("Zoom attempt completed") },
-                                            cameraExecutor
-                                        )
-
-                                    previewView?.meteringPointFactory?.createPoint(.5f,.5f)
-                                        ?.let { point ->
-                                            FocusMeteringAction.Builder(point).disableAutoCancel().build()
-                                        }
-                                        ?.let { ac ->
-                                            camera.cameraControl.startFocusAndMetering(ac)
-                                        }
-                                        ?.let {
-                                            it.addListener({ Timber.d("Focus and metering action completed") }, cameraExecutor)
-                                        }
-                                }
-
-
-/*
-                                camera.cameraControl.setExposureCompensationIndex(6)
-                                camera.cameraControl.enableTorch(false)
-*/
-
-/*
-                                camera.cameraInfo.exposureState.let { exposureState ->
-                                    if (exposureState.isExposureCompensationSupported) {
-                                        val range = exposureState.exposureCompensationRange
-                                        val targetCompensation = (range.upper / 3)
-                                        camera.cameraControl.setExposureCompensationIndex(targetCompensation)
-                                    }
-                                }
-*/
-                            }
+                            )
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -272,4 +225,56 @@ fun CameraView(
             Text("Camera permission is required")
         }
     }
+}
+
+@Composable
+private fun Camera.diagnostics(
+    cameraExecutor: ExecutorService?,
+    previewView: PreviewView?,
+    camera: Camera
+) {
+    cameraInfo.exposureState.let { exposureState ->
+        if (exposureState.isExposureCompensationSupported) {
+            cameraControl.setExposureCompensationIndex(exposureState.exposureCompensationRange.upper)
+                .addListener(
+                    { Timber.d("Max exposure set attempt completed") },
+                    cameraExecutor
+                )
+        }
+    }
+    // Try to set zoom to 2x - should be noticeable if it works
+    cameraControl.setZoomRatio(2.0f)
+        .addListener(
+            { Timber.d("Zoom attempt completed") },
+            cameraExecutor
+        )
+
+    previewView?.meteringPointFactory?.createPoint(.5f, .5f)
+        ?.let { point ->
+            FocusMeteringAction.Builder(point).disableAutoCancel().build()
+        }
+        ?.let { ac ->
+            camera.cameraControl.startFocusAndMetering(ac)
+        }
+        ?.let {
+            it.addListener({ Timber.d("Focus and metering action completed") }, cameraExecutor)
+        }
+
+
+
+    /*
+                                    camera.cameraControl.setExposureCompensationIndex(6)
+                                    camera.cameraControl.enableTorch(false)
+    */
+
+    /*
+                                    camera.cameraInfo.exposureState.let { exposureState ->
+                                        if (exposureState.isExposureCompensationSupported) {
+                                            val range = exposureState.exposureCompensationRange
+                                            val targetCompensation = (range.upper / 3)
+                                            camera.cameraControl.setExposureCompensationIndex(targetCompensation)
+                                        }
+                                    }
+    */
+
 }

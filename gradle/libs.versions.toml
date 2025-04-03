@@ -1,6 +1,7 @@
 [versions]
 accompanistPermissions = "0.30.1"
-androidGradlePlugin = "8.6.1"
+#androidGradlePlugin = "8.6.1"
+androidGradlePlugin = "8.9.1"
 androidx-activityCompose = "1.10.1"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.2.1"
@@ -125,6 +126,7 @@ koin-ksp-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref =
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koinAnnotations" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
+koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koinCompose" }
 koin-compose-multiplatform = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }

@@ -35,12 +35,7 @@ fun MainNavGraphHost(mainNav: MainNav = koinInject()) {
 }
 
 @Composable
-fun MainNavGraph(
-    mainNav: MainNav = koinInject(),
-    isLockTaskMode: Boolean,
-    onToggleLockTask: () -> Unit,
-    onEndApp: () -> Unit
-) {
+fun MainNavGraph(mainNav: MainNav = koinInject()) {
     // The controller
     val navHostController = rememberNavController()
 
@@ -49,11 +44,7 @@ fun MainNavGraph(
         startDestination = MainRoute
     ) {
         composable<MainRoute> {
-            MainScreen(
-                isLockTaskMode = isLockTaskMode,
-                onToggleLockTask = onToggleLockTask,
-                onEndApp = onEndApp
-            )
+            MainScreen()
         }
         
         composable<QRScanRoute> {

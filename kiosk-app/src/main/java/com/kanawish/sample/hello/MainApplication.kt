@@ -6,12 +6,13 @@ import android.os.Build
 import com.google.android.things.contrib.driver.apa102.Apa102
 import com.google.android.things.contrib.driver.ht16k33.Ht16k33
 import com.google.android.things.contrib.driver.rainbowhat.RainbowHat
-import com.kanawish.sample.hello.di.initKoin
+import com.kanawish.sample.hello.di.appModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -23,9 +24,10 @@ class MainApplication : Application() {
         super.onCreate()
         Timber.plant(DebugTree())
 
-        initKoin {
+        startKoin {
             androidLogger()
             androidContext(this@MainApplication)
+            modules(appModule())
         }
 
         // NOTE: Can't runtime android-things on unsupported devices.
