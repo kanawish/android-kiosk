@@ -31,10 +31,12 @@ class MainApplication : Application() {
         }
 
         // NOTE: Can't runtime android-things on unsupported devices.
-        if( Build.DEVICE == "odroidn2") foo()
+        if( Build.DEVICE == "odroidn2") pimoHat()
     }
 
-    fun foo() {
+    fun pimoHat() {
+        if( Build.DEVICE == "odroidn2") return
+
         val gpio = RainbowHat.openLedBlue()
         gpio.setValue(true)
         gpio.close()

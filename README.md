@@ -1,5 +1,12 @@
 # DiY Android Kiosks: Turning a Raspberry Pi into a Modular Workhorse
 
+This repository contains backing source code for my Android Kiosks talk. 
+
+You might also be interested in my fork of https://github.com/kanawish/contrib-drivers with an example of locally publishing Android Things contributed drivers.
+
+
+## Abstract 
+
 What happens when you take a Raspberry Pi with a touchscreen, slap Android on it, and bolt it onto an 80/20 aluminum cube? You get a kiosk that does way more than your average locked-down tablet.
 
 I'll show you how to build your own modular Android-based system that plays nice with USB peripherals you wouldn’t normally expect: Think webcams, and servos for automated 3D scanning and photography. We'll see how to stream or record video and audio, process it with ML models, and generate time-stamped work logs.

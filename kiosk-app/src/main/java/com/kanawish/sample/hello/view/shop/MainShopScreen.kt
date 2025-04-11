@@ -2,6 +2,7 @@
 
 package com.kanawish.sample.hello.view.shop
 
+import android.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,15 +38,19 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -124,7 +129,7 @@ fun MainShopScreen() {
     ) { paddingValues ->
         Row(modifier = Modifier.Companion.padding(paddingValues)) {
             // Left pane (2/3 of screen) with its own header
-            Column(modifier = Modifier.Companion.weight(2f)) {
+            Column(modifier = Modifier.Companion.weight(1.25f)) {
                 StoreActionSection()
             }
 
@@ -138,7 +143,7 @@ fun MainShopScreen() {
 }
 
 @Composable
-private fun StoreActionSection() {
+fun StoreActionSection() {
     // Store section header
     TopAppBar(
         title = {

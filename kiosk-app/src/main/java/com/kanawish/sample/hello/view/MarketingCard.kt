@@ -14,10 +14,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +33,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kanawish.sample.hello.theme.AppTheme
+
+@Preview
+@Composable
+fun ComponentThemingPreview() {
+    AppTheme {
+        Surface {
+            ButtonRow()
+        }
+    }
+}
+
+@Composable
+fun ButtonRow() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Button(
+            onClick = { /* TODO */ },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("foo")
+        }
+        FilledTonalButton(
+            onClick = { /* TODO */ },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("foo")
+        }
+        TextButton(
+            onClick = { /* TODO */ },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("foo")
+        }
+        OutlinedButton(
+            onClick = { /* TODO */ },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("foo")
+        }
+        ElevatedButton(
+            onClick = { /* TODO */ },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("foo")
+        }
+    }
+}
 
 @Composable
 fun MarketingCard(

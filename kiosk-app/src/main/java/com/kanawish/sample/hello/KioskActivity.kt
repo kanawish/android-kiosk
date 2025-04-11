@@ -66,6 +66,7 @@ class KioskActivity : ComponentActivity() {
     private val devicePolicyManager: DevicePolicyManager by inject()
     private val kioskModel: KioskModel by inject()
 
+    // NOTE: startLockTask(), stopLockTask() are functions provided by Activity
     fun launchKioskEventHandling() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

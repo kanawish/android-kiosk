@@ -56,7 +56,7 @@ dependencies {
 //    implementation("com.hardkernel:driver-Mcp2515:0.5.3")
     implementation("com.google.android.things:androidthings:1.0")
     implementation("com.google.android.things.contrib:driver-rainbowhat:1.0")
-    // NOTE: Looks like 'api' weren't folded in on local release, tbd why...
+
     implementation("com.google.android.things.contrib:driver-apa102:1.0")
     implementation("com.google.android.things.contrib:driver-button:1.0")
     implementation("com.google.android.things.contrib:driver-bmx280:1.0")
@@ -64,6 +64,7 @@ dependencies {
     implementation("com.google.android.things.contrib:driver-pwmspeaker:1.0")
     implementation("com.google.android.things.contrib:driver-pwmservo:1.0")
 
+    // NOTE: Looks like 'api' weren't folded in on local release, tbd why...
     implementation("com.google.mlkit:barcode-scanning:17.0.2")
 
     implementation(libs.accompanist.permissions)
