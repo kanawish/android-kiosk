@@ -1,6 +1,6 @@
 # DiY Android Kiosks: Turning a Raspberry Pi into a Modular Workhorse
 
-This repository contains backing source code for my Android Kiosks talk. 
+This repository contains backing source code for my Android Kiosks talk. You can find the [slides here](https://drive.google.com/file/d/1ILzekjc0K6_HWrF_qWhNrzkuwrKQz3ea/view?usp=sharing).
 
 You might also be interested in my fork of https://github.com/kanawish/contrib-drivers with an example of locally publishing Android Things contributed drivers.
 
